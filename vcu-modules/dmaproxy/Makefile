@@ -1,0 +1,2 @@
+obj-m += dmaproxy.o
+# obj-$(CONFIG_DMAPROXY_MYLES) += dmaproxy.o
