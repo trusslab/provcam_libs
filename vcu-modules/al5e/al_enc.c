@@ -245,6 +245,7 @@ static long al5e_ioctl(struct file *filp, unsigned int cmd,
         // }
 
         // myles_printk("[myles]%s: allocation size: %d, address: 0x%x.\n", __func__, info.size, info.phy_addr);
+		printk("[myles]%s: allocation size: %d, address: 0x%x.\n", __func__, info.size, info.phy_addr);
 
         if (copy_to_user((void *)arg, &info, sizeof(info)))
             return -EFAULT;
@@ -271,6 +272,7 @@ static long al5e_ioctl(struct file *filp, unsigned int cmd,
         info.phy_addr = 0xc400000;
 
         // myles_printk("[myles]%s: allocation size(?): %d, address: 0x%x, first_4_bytes: 0x%x.\n", __func__, info.size, info.phy_addr, *(volatile u32*)(phys_to_virt(info.phy_addr)));
+		printk("[myles]%s: allocation size(?): %d, address: 0x%x, first_4_bytes: 0x%x.\n", __func__, info.size, info.phy_addr, *(volatile u32*)(phys_to_virt(info.phy_addr)));
 
         if (copy_to_user((void *)arg, &info, sizeof(info)))
             return -EFAULT;
