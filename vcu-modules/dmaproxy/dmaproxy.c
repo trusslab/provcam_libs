@@ -242,22 +242,22 @@ static int perform_dma_copy(struct dmaproxy_data *dmaproxy_data, dmaproxy_arg_t 
 	um->bidi_cnt++;
 
     // For Myles's debugging only
-    // if (print_counter < 32) {
-    //     int temp_size_c;
-    //     for (temp_size_c = 0; temp_size_c < (um->len); temp_size_c += 1) {
-    //         // char_arr_4_print[current_writing_ptr++] = *(char*)(um->addr[0]);
-    //         printk("[myles]%s: %dth 4-byte trying to copy one byte from address: 0x%x.\n", __func__, print_counter, um->addr[0] + 32 + temp_size_c);
-    //         printk("[myles]%s: %dth 4-byte trying to print one byte: %s.\n", __func__, print_counter, *(char*)(um->addr[0] + 32 + temp_size_c));
-    //         memcpy(char_arr_4_print + (current_writing_ptr++), (char*)(um->addr[0] + 32 + temp_size_c), sizeof(char));
-    //         if ((current_writing_ptr == 4) && (print_counter < 32)) {
-    //             printk("[myles]%s: %dth 4-byte trying to copy four byte.\n", __func__, print_counter);
-    //             memcpy(&int_4_print, char_arr_4_print, 4);
-    //             printk("[myles]%s: %dth 4-byte (source: 0x%x, dst: 0x%x, offset: %d, total_size: %d): 0x%x.\n", __func__, print_counter, um->addr[0], um->addr[1], temp_size_c, um->len, int_4_print);
-    //             ++print_counter;
-    //             current_writing_ptr = 0;
-    //         }
-    //     }
-    // }
+    if (print_counter < 32) {
+        int temp_size_c;
+        for (temp_size_c = 0; temp_size_c < (um->len); temp_size_c += 1) {
+            // char_arr_4_print[current_writing_ptr++] = *(char*)(um->addr[0]);
+            printk("[myles]%s: %dth 4-byte trying to copy one byte from address: 0x%x.\n", __func__, print_counter, um->addr[0] + 32 + temp_size_c);
+            printk("[myles]%s: %dth 4-byte trying to print one byte: %s.\n", __func__, print_counter, *(char*)(um->addr[0] + 32 + temp_size_c));
+            memcpy(char_arr_4_print + (current_writing_ptr++), (char*)(um->addr[0] + 32 + temp_size_c), sizeof(char));
+            if ((current_writing_ptr == 4) && (print_counter < 32)) {
+                printk("[myles]%s: %dth 4-byte trying to copy four byte.\n", __func__, print_counter);
+                memcpy(&int_4_print, char_arr_4_print, 4);
+                printk("[myles]%s: %dth 4-byte (source: 0x%x, dst: 0x%x, offset: %d, total_size: %d): 0x%x.\n", __func__, print_counter, um->addr[0], um->addr[1], temp_size_c, um->len, int_4_print);
+                ++print_counter;
+                current_writing_ptr = 0;
+            }
+        }
+    }
 
     // if (print_counter++ < 64) {
     //     printk("[myles]%s: %dth moving, src: 0x%x, dst: 0x%x, len: %d.\n", __func__, print_counter, um->addr[0], um->addr[1], um->len);
