@@ -67,18 +67,18 @@ void DMAMemory::move(AL_TBuffer* destination, int destination_offset, AL_TBuffer
     //     return;
     // }
 
-    // auto src_allocator = source->pAllocator;
-    // int src_fd = AL_LinuxDmaAllocator_GetFd((AL_TLinuxDmaAllocator*)src_allocator, source->hBufs[0]);
+    auto src_allocator = source->pAllocator;
+    int src_fd = AL_LinuxDmaAllocator_GetFd((AL_TLinuxDmaAllocator*)src_allocator, source->hBufs[0]);
 
-    // auto dst_allocator = destination->pAllocator;
-    // int dst_fd = AL_LinuxDmaAllocator_GetFd((AL_TLinuxDmaAllocator*)dst_allocator, destination->hBufs[0]);
+    auto dst_allocator = destination->pAllocator;
+    int dst_fd = AL_LinuxDmaAllocator_GetFd((AL_TLinuxDmaAllocator*)dst_allocator, destination->hBufs[0]);
 
-    // dmaproxy_arg_t dmaproxy {};
-    // dmaproxy.size = size;
-    // dmaproxy.dst_offset = destination_offset;
-    // dmaproxy.src_offset = source_offset;
-    // dmaproxy.src_fd = src_fd;
-    // dmaproxy.dst_fd = dst_fd;
+    dmaproxy_arg_t dmaproxy {};
+    dmaproxy.size = size;
+    dmaproxy.dst_offset = destination_offset;
+    dmaproxy.src_offset = source_offset;
+    dmaproxy.src_fd = src_fd;
+    dmaproxy.dst_fd = dst_fd;
 
     printf("[myles]%s: size: %d, dst: 0x%lx (phy: 0x%lx), dst_offset: 0x%lx, src: 0x%lx (phy: 0x%lx), src_offset: 0x%lx, src_fd: %d, dst_fd: %d.\n", __func__, dmaproxy.size, AL_Buffer_GetData(destination), AL_Buffer_GetPhysicalAddress(destination), dmaproxy.dst_offset, AL_Buffer_GetData(source), AL_Buffer_GetPhysicalAddress(source), dmaproxy.src_offset, dmaproxy.src_fd, dmaproxy.dst_fd);
 
