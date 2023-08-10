@@ -259,9 +259,9 @@ static int perform_dma_copy(struct dmaproxy_data *dmaproxy_data, dmaproxy_arg_t 
     //     }
     // }
 
-    if (print_counter++ < 64) {
-        printk("[myles]%s: %dth moving, src: 0x%x, dst: 0x%x, len: %d.\n", __func__, print_counter, um->addr[0], um->addr[1], um->len);
-    }
+    // if (print_counter++ < 64) {
+    //     printk("[myles]%s: %dth moving, src: 0x%x, dst: 0x%x, len: %d.\n", __func__, print_counter, um->addr[0], um->addr[1], um->len);
+    // }
 
     ++print_counter;
     if (((um->addr[0]) < 0x0D400000) || (((um->addr[0]) + (um->len)) > 0x0E2FFFFF))
