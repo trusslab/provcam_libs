@@ -82,7 +82,7 @@ static int allocate_channel_buffers(struct al5_user *user,
 	if (err)
 		return err;
 
-    // myles_printk("[myles]%s: int_buffers created, count: %d, size: %d, first handle: 0x%lx.\n", __func__, buffers.int_buffers_count, buffers.int_buffers_size, user->int_buffers.buffers[0]->dma_handle);
+    // shiroha_printk("[shiroha]%s: int_buffers created, count: %d, size: %d, first handle: 0x%lx.\n", __func__, buffers.int_buffers_count, buffers.int_buffers_size, user->int_buffers.buffers[0]->dma_handle);
 
 	err = al5_bufpool_allocate(&user->rec_buffers, user->device,
 				   buffers.rec_buffers_count,
@@ -90,7 +90,7 @@ static int allocate_channel_buffers(struct al5_user *user,
 	if (err)
 		return err;
 
-    // myles_printk("[myles]%s: rec_buffers created, count: %d, size: %d, first handle: 0x%lx.\n", __func__, buffers.rec_buffers_count, buffers.rec_buffers_size, user->rec_buffers.buffers[0]->dma_handle);
+    // shiroha_printk("[shiroha]%s: rec_buffers created, count: %d, size: %d, first handle: 0x%lx.\n", __func__, buffers.rec_buffers_count, buffers.rec_buffers_size, user->rec_buffers.buffers[0]->dma_handle);
 
 	return 0;
 }
@@ -299,7 +299,7 @@ int al5e_user_put_stream_buffer(struct al5_user *user,
 			return error;
 		external_mv_mcu_vaddr = al5_mcu_get_virtual_address(
 			external_mv_buffer_info.bus_address);
-        // myles_printk("[myles]%s: external_mv_buffer_info.bus_address: 0x%x, external_mv_mcu_vaddr: 0x%x. \n", __func__, external_mv_buffer_info.bus_address, external_mv_mcu_vaddr);
+        // shiroha_printk("[shiroha]%s: external_mv_buffer_info.bus_address: 0x%x, external_mv_mcu_vaddr: 0x%x. \n", __func__, external_mv_buffer_info.bus_address, external_mv_mcu_vaddr);
 	}
 
 	mail = al5_mail_create(AL_MCU_MSG_PUT_STREAM_BUFFER, 32);
@@ -310,7 +310,7 @@ int al5e_user_put_stream_buffer(struct al5_user *user,
 	al5_mail_write_word(mail, buffer->stream_buffer.size);
 	al5_mail_write_word(mail, buffer->stream_buffer.offset);
 	al5_mail_write(mail, &buffer->stream_buffer.stream_buffer_ptr, 8);
-    // myles_printk("[myles]%s: stream_buffer_info.bus_address: 0x%x, stream_mcu_vaddr: 0x%x, stream_buffer_ptr: 0x%lx, size: %u, offset: %u.\n", __func__, stream_buffer_info.bus_address, stream_mcu_vaddr, buffer->stream_buffer.stream_buffer_ptr, buffer->stream_buffer.size, buffer->stream_buffer.offset);
+    // shiroha_printk("[shiroha]%s: stream_buffer_info.bus_address: 0x%x, stream_mcu_vaddr: 0x%x, stream_buffer_ptr: 0x%lx, size: %u, offset: %u.\n", __func__, stream_buffer_info.bus_address, stream_mcu_vaddr, buffer->stream_buffer.stream_buffer_ptr, buffer->stream_buffer.size, buffer->stream_buffer.offset);
     al5_mail_write_word(mail, external_mv_mcu_vaddr);
 
 	return al5_check_and_send(user, mail);

@@ -12,7 +12,7 @@ struct DMAMemory final : MemoryInterface
 private:
     int fd;
   
-    // Myles: for debugging only
+    // Shiroha: for debugging only
     int is_fixed_bytes_skipped = 0;
     int print_counter = 0;
     int total_print_counter = 0;

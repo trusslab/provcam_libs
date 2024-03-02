@@ -260,7 +260,7 @@ void print_trace()
   if (strings != NULL)
   {
 
-    printf ("[myles]: Obtained %d stack frames.\n", size);
+    printf ("[shiroha]: Obtained %d stack frames.\n", size);
     for (i = 0; i < size; i++)
       printf ("%s\n", strings[i]);
   }
@@ -283,11 +283,11 @@ OMX_ERRORTYPE EncComponent::AllocateBuffer(OMX_INOUT OMX_BUFFERHEADERTYPE** head
   auto bufferHandlePort = GetBufferHandlePort(media, index);
   bool dmaOnPort = (bufferHandlePort == BufferHandleType::BUFFER_HANDLE_FD);
 
-//   printf("[myles]%s: before printing stack tree.\n", __func__);
+//   printf("[shiroha]%s: before printing stack tree.\n", __func__);
 //   print_trace();
-//   printf("[myles]%s: after printing stack tree.\n", __func__);
+//   printf("[shiroha]%s: after printing stack tree.\n", __func__);
 
-//   printf("[myles]%s: going to allocate memory of size: %d.\n", __func__, size * sizeof(OMX_U8));
+//   printf("[shiroha]%s: going to allocate memory of size: %d.\n", __func__, size * sizeof(OMX_U8));
 
   auto buffer = dmaOnPort ? reinterpret_cast<OMX_U8*>(ToEncModule(*module).AllocateDMA(size * sizeof(OMX_U8))) : static_cast<OMX_U8*>(module->Allocate(size * sizeof(OMX_U8)));
 

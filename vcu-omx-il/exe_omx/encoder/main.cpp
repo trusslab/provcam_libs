@@ -557,7 +557,7 @@ static OMX_ERRORTYPE onOutputBufferAvailable(OMX_HANDLETYPE hComponent, OMX_PTR 
 
     if(data)
     {
-        printf("[myles]%s: pBuffer: 0x%lx, nOffset: %d, zMapSize: %d, nFilledLen: %d.\n", __func__, pBufferHdr->pBuffer, pBufferHdr->nOffset, zMapSize, pBufferHdr->nFilledLen);
+        printf("[shiroha]%s: pBuffer: 0x%lx, nOffset: %d, zMapSize: %d, nFilledLen: %d.\n", __func__, pBufferHdr->pBuffer, pBufferHdr->nOffset, zMapSize, pBufferHdr->nFilledLen);
         outfile.write((char*)data, pBufferHdr->nFilledLen);
         outfile.flush();
     }
@@ -631,7 +631,7 @@ static void allocBuffers(OMX_U32 nPortIndex, Application& app)
   for(auto nbBuf = 0; nbBuf < minBuf; nbBuf++)
   {
     OMX_BUFFERHEADERTYPE* pBufHeader;
-    printf("[myles]%s: going to call OMX_AllocateBuffer with size: %d, nbBuf: %d, minBuf: %d.", __func__, nbBuf, minBuf);
+    printf("[shiroha]%s: going to call OMX_AllocateBuffer with size: %d, nbBuf: %d, minBuf: %d.", __func__, nbBuf, minBuf);
     OMX_AllocateBuffer(app.hEncoder, &pBufHeader, nPortIndex, &app, size);
     isInput ? app.input.buffers.push_back(pBufHeader) : app.output.buffers.push_back(pBufHeader);
   }
@@ -881,7 +881,7 @@ static OMX_ERRORTYPE safeMain(int argc, char** argv)
 
 int main(int argc, char** argv)
 {
-    printf("[myles]vcu-omx-il encoder main is called.\n");
+    printf("[shiroha]vcu-omx-il encoder main is called.\n");
     try
     {
         if(safeMain(argc, argv) != OMX_ErrorNone)

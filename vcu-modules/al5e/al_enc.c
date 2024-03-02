@@ -105,7 +105,7 @@ static long al5e_ioctl(struct file *filp, unsigned int cmd,
 		u32 rec_fd;
 	case AL_MCU_CONFIG_CHANNEL:
 
-        // myles_printk("[myles]%s: cmd: %s, %d.\n", __func__, "AL_MCU_CONFIG_CHANNEL", AL_MCU_CONFIG_CHANNEL);
+        // shiroha_printk("[shiroha]%s: cmd: %s, %d.\n", __func__, "AL_MCU_CONFIG_CHANNEL", AL_MCU_CONFIG_CHANNEL);
 
 		ioctl_info("ioctl AL_MCU_CONFIG_CHANNEL from user %i",
 			   user->uid);
@@ -122,7 +122,7 @@ static long al5e_ioctl(struct file *filp, unsigned int cmd,
 
 	case AL_MCU_DESTROY_CHANNEL:
 
-        // myles_printk("[myles]%s: cmd: %s, %d.\n", __func__, "AL_MCU_DESTROY_CHANNEL", AL_MCU_DESTROY_CHANNEL);
+        // shiroha_printk("[shiroha]%s: cmd: %s, %d.\n", __func__, "AL_MCU_DESTROY_CHANNEL", AL_MCU_DESTROY_CHANNEL);
 
 		ioctl_info("ioctl AL_MCU_DESTROY_CHANNEL from user %i",
 			   user->uid);
@@ -132,7 +132,7 @@ static long al5e_ioctl(struct file *filp, unsigned int cmd,
 
 	case AL_MCU_WAIT_FOR_STATUS:
 
-        // myles_printk("[myles]%s: cmd: %s, %d.\n", __func__, "AL_MCU_WAIT_FOR_STATUS", AL_MCU_WAIT_FOR_STATUS);
+        // shiroha_printk("[shiroha]%s: cmd: %s, %d.\n", __func__, "AL_MCU_WAIT_FOR_STATUS", AL_MCU_WAIT_FOR_STATUS);
 
 		ioctl_info("ioctl AL_MCU_WAIT_FOR_STATUS from user %i",
 			   user->uid);
@@ -148,7 +148,7 @@ static long al5e_ioctl(struct file *filp, unsigned int cmd,
 
 	case AL_MCU_ENCODE_ONE_FRM:
 
-        // myles_printk("[myles]%s: cmd: %s, %d.\n", __func__, "AL_MCU_ENCODE_ONE_FRM", AL_MCU_ENCODE_ONE_FRM);
+        // shiroha_printk("[shiroha]%s: cmd: %s, %d.\n", __func__, "AL_MCU_ENCODE_ONE_FRM", AL_MCU_ENCODE_ONE_FRM);
 
 		ioctl_info("ioctl AL_MCU_ENCODE_ONE_FRM from user %i",
 			   user->uid);
@@ -166,7 +166,7 @@ static long al5e_ioctl(struct file *filp, unsigned int cmd,
         // #include <linux/delay.h>
         // usleep_range(1000000, 1000001);
 
-        // myles_printk("[myles]%s: encoding one frame with chan_uid: %d, params size: %d, addresses size: %d, address 0: 0x%x, address 1: 0x%x, first_4_bytes: 0x%x.\n", __func__, user->chan_uid, encode_msg.params.size, encode_msg.addresses.size, encode_msg.addresses.opaque_params[0], encode_msg.addresses.opaque_params[1], *(volatile u32*)(phys_to_virt(encode_msg.addresses.opaque_params[0])));
+        // shiroha_printk("[shiroha]%s: encoding one frame with chan_uid: %d, params size: %d, addresses size: %d, address 0: 0x%x, address 1: 0x%x, first_4_bytes: 0x%x.\n", __func__, user->chan_uid, encode_msg.params.size, encode_msg.addresses.size, encode_msg.addresses.opaque_params[0], encode_msg.addresses.opaque_params[1], *(volatile u32*)(phys_to_virt(encode_msg.addresses.opaque_params[0])));
 		ret = al5e_user_encode_one_frame(user, &encode_msg);
 		if (copy_to_user((void *)arg, &encode_msg, sizeof(encode_msg)))
 			return -EFAULT;
@@ -175,7 +175,7 @@ static long al5e_ioctl(struct file *filp, unsigned int cmd,
 
 	case AL_MCU_GET_REC_PICTURE:
 
-        // myles_printk("[myles]%s: cmd: %s, %d.\n", __func__, "AL_MCU_GET_REC_PICTURE", AL_MCU_GET_REC_PICTURE);
+        // shiroha_printk("[shiroha]%s: cmd: %s, %d.\n", __func__, "AL_MCU_GET_REC_PICTURE", AL_MCU_GET_REC_PICTURE);
 
 		ioctl_info("ioctl AL_MCU_GET_REC from user %i", user->uid);
 		if (copy_from_user(&rec_msg, (void *)arg, sizeof(rec_msg)))
@@ -188,7 +188,7 @@ static long al5e_ioctl(struct file *filp, unsigned int cmd,
 
 	case AL_MCU_RELEASE_REC_PICTURE:
 
-        // myles_printk("[myles]%s: cmd: %s, %d.\n", __func__, "AL_MCU_RELEASE_REC_PICTURE", AL_MCU_RELEASE_REC_PICTURE);
+        // shiroha_printk("[shiroha]%s: cmd: %s, %d.\n", __func__, "AL_MCU_RELEASE_REC_PICTURE", AL_MCU_RELEASE_REC_PICTURE);
 
 		ioctl_info("ioctl AL_MCU_GET_REC from user %i", user->uid);
 		if (copy_from_user(&rec_fd, (void *)arg, sizeof(rec_fd)))
@@ -198,7 +198,7 @@ static long al5e_ioctl(struct file *filp, unsigned int cmd,
 
 	case AL_MCU_PUT_STREAM_BUFFER:
 
-        // myles_printk("[myles]%s: cmd: %s, %d.\n", __func__, "AL_MCU_PUT_STREAM_BUFFER", AL_MCU_PUT_STREAM_BUFFER);
+        // shiroha_printk("[shiroha]%s: cmd: %s, %d.\n", __func__, "AL_MCU_PUT_STREAM_BUFFER", AL_MCU_PUT_STREAM_BUFFER);
 
 		if (copy_from_user(&buffer_msg, (void *)arg,
 				   sizeof(buffer_msg)))
@@ -209,14 +209,14 @@ static long al5e_ioctl(struct file *filp, unsigned int cmd,
 
 	case GET_DMA_FD:
     {
-        // myles_printk("[myles]%s: cmd: %s, %d.\n", __func__, "GET_DMA_FD", GET_DMA_FD);
+        // shiroha_printk("[shiroha]%s: cmd: %s, %d.\n", __func__, "GET_DMA_FD", GET_DMA_FD);
 
-        // myles_printk("[myles]%s: dump_stack before.\n", __func__);
+        // shiroha_printk("[shiroha]%s: dump_stack before.\n", __func__);
         // dump_stack();
-        // myles_printk("[myles]%s: dump_stack after.\n", __func__);
+        // shiroha_printk("[shiroha]%s: dump_stack after.\n", __func__);
 
 		ret = al5_ioctl_get_dma_fd(codec->device, arg);
-        // myles_printk("[myles]%s: al5_ioctl_get_dma_fd res: %d.\n", __func__, ret);
+        // shiroha_printk("[shiroha]%s: al5_ioctl_get_dma_fd res: %d.\n", __func__, ret);
 
         struct al5_dma_info info;
         int err;
@@ -234,8 +234,8 @@ static long al5e_ioctl(struct file *filp, unsigned int cmd,
 
         // if (info.size >= 1511424) {
         //     if (recorded_addr_4_enc) {
-        //         myles_printk("[myles]%s: for phy_addr, replacing 0x%lx with 0x%lx; for fd, replacing %d with %d.\n", __func__, info.phy_addr, recorded_addr_4_enc, info.fd, recorded_fd_4_enc);
-        //         // printk("[myles]%s: replacing 0x%lx with 0x%lx.\n", __func__, info.phy_addr, recorded_addr_4_enc);
+        //         shiroha_printk("[shiroha]%s: for phy_addr, replacing 0x%lx with 0x%lx; for fd, replacing %d with %d.\n", __func__, info.phy_addr, recorded_addr_4_enc, info.fd, recorded_fd_4_enc);
+        //         // printk("[shiroha]%s: replacing 0x%lx with 0x%lx.\n", __func__, info.phy_addr, recorded_addr_4_enc);
         //         info.phy_addr = recorded_addr_4_enc;
         //         info.fd = recorded_fd_4_enc;
         //     } else {
@@ -244,8 +244,8 @@ static long al5e_ioctl(struct file *filp, unsigned int cmd,
         //     }
         // }
 
-        // myles_printk("[myles]%s: allocation size: %d, address: 0x%x.\n", __func__, info.size, info.phy_addr);
-		// printk("[myles]%s: allocation size: %d, address: 0x%x.\n", __func__, info.size, info.phy_addr);
+        // shiroha_printk("[shiroha]%s: allocation size: %d, address: 0x%x.\n", __func__, info.size, info.phy_addr);
+		// printk("[shiroha]%s: allocation size: %d, address: 0x%x.\n", __func__, info.size, info.phy_addr);
 
         if (copy_to_user((void *)arg, &info, sizeof(info)))
             return -EFAULT;
@@ -254,7 +254,7 @@ static long al5e_ioctl(struct file *filp, unsigned int cmd,
     }
 	case GET_DMA_PHY:
     {
-        // myles_printk("[myles]%s: cmd: %s, %d.\n", __func__, "GET_DMA_PHY", GET_DMA_PHY);
+        // shiroha_printk("[shiroha]%s: cmd: %s, %d.\n", __func__, "GET_DMA_PHY", GET_DMA_PHY);
 
 		// ret = al5_ioctl_get_dmabuf_dma_addr(codec->device, arg);
 
@@ -271,8 +271,8 @@ static long al5e_ioctl(struct file *filp, unsigned int cmd,
         // info.phy_addr = 0x40000000;
         info.phy_addr = 0xc400000;
 
-        // myles_printk("[myles]%s: allocation size(?): %d, address: 0x%x, first_4_bytes: 0x%x.\n", __func__, info.size, info.phy_addr, *(volatile u32*)(phys_to_virt(info.phy_addr)));
-		// printk("[myles]%s: allocation size(?): %d, address: 0x%x, first_4_bytes: 0x%x.\n", __func__, info.size, info.phy_addr, *(volatile u32*)(phys_to_virt(info.phy_addr)));
+        // shiroha_printk("[shiroha]%s: allocation size(?): %d, address: 0x%x, first_4_bytes: 0x%x.\n", __func__, info.size, info.phy_addr, *(volatile u32*)(phys_to_virt(info.phy_addr)));
+		// printk("[shiroha]%s: allocation size(?): %d, address: 0x%x, first_4_bytes: 0x%x.\n", __func__, info.size, info.phy_addr, *(volatile u32*)(phys_to_virt(info.phy_addr)));
 
         if (copy_to_user((void *)arg, &info, sizeof(info)))
             return -EFAULT;
@@ -283,7 +283,7 @@ static long al5e_ioctl(struct file *filp, unsigned int cmd,
     }
 	default:
 
-        // myles_printk("[myles]%s: cmd: %s.\n", __func__, "default");
+        // shiroha_printk("[shiroha]%s: cmd: %s.\n", __func__, "default");
 
 		return ioctl_usage(user, cmd);
 	}
@@ -322,7 +322,7 @@ static int al5e_setup_codec_cdev(struct al5_codec_desc *codec, int minor)
 static int al5e_probe(struct platform_device *pdev)
 {
 
-    myles_printk("[myles]al5e_probe: attempt to probe al5e.\n");
+    shiroha_printk("[shiroha]al5e_probe: attempt to probe al5e.\n");
 
 	int err;
 	static int current_minor;
@@ -340,7 +340,7 @@ static int al5e_probe(struct platform_device *pdev)
 		dev_err(&pdev->dev, "Failed to setup codec");
 		return err;
 	}
-	printk("[Myles]%s: about to call al5_codec_set_firmware.\n", __func__);
+	printk("[Shiroha]%s: about to call al5_codec_set_firmware.\n", __func__);
 	err = al5_codec_set_firmware(codec, AL5E_FIRMWARE,
 				     AL5E_BOOTLOADER_FIRMWARE);
 	if (err) {
@@ -349,7 +349,7 @@ static int al5e_probe(struct platform_device *pdev)
 		return err;
 	}
 
-    myles_printk("[myles]%s: suballoc_buf size: %d, suballoc_buf dma_handle: 0x%lx, icache size: %d, icache dma_handle: 0x%lx, dcache_base_addr: 0x%lx.\n", __func__, codec->suballoc_buf->size, codec->suballoc_buf->dma_handle, codec->icache->size, codec->icache->dma_handle, codec->dcache_base_addr);
+    shiroha_printk("[shiroha]%s: suballoc_buf size: %d, suballoc_buf dma_handle: 0x%lx, icache size: %d, icache dma_handle: 0x%lx, dcache_base_addr: 0x%lx.\n", __func__, codec->suballoc_buf->size, codec->suballoc_buf->dma_handle, codec->icache->size, codec->icache->dma_handle, codec->dcache_base_addr);
 
 	err = al5e_setup_codec_cdev(codec, current_minor);
 	if (err) {
@@ -360,7 +360,7 @@ static int al5e_probe(struct platform_device *pdev)
 	codec->minor = current_minor;
 	++current_minor;
 
-    myles_printk("[myles]al5e_probe: al5e is now probed.\n");
+    shiroha_printk("[shiroha]al5e_probe: al5e is now probed.\n");
 
 	return 0;
 }
@@ -417,7 +417,7 @@ static void destroy_module_class(void)
 static int __init al5e_init(void)
 {
 
-    myles_printk("[myles]al5e_init: al5e driver init.\n");
+    shiroha_printk("[shiroha]al5e_init: al5e driver init.\n");
 
 	int err;
 
@@ -447,5 +447,5 @@ MODULE_LICENSE("GPL v2");
 MODULE_AUTHOR("Kevin Grandemange");
 MODULE_AUTHOR("Sebastien Alaiwan");
 MODULE_AUTHOR("Antoine Gruzelle");
-MODULE_AUTHOR("Myles Liu");
-MODULE_DESCRIPTION("Allegro Codec Driver modified by Myles");
+MODULE_AUTHOR("Shiroha Liu");
+MODULE_DESCRIPTION("Allegro Codec Driver modified by Shiroha");

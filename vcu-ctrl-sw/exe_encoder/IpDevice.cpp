@@ -89,7 +89,7 @@ static shared_ptr<CIpDevice> createMcuIpDevice()
 
   pScheduler = AL_SchedulerMcu_Create(AL_GetHardwareDriver(), pAllocator, g_EncDevicePath.c_str());
 
-  printf("[myles]%s: AL_SchedulerMcu is now created.\n", __func__);
+  printf("[shiroha]%s: AL_SchedulerMcu is now created.\n", __func__);
 
   if(!pScheduler)
     throw std::runtime_error("Failed to create MCU scheduler");

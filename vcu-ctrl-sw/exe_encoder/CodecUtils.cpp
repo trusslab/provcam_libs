@@ -139,14 +139,14 @@ void WriteOneSection(std::ofstream& File, AL_TBuffer* pStream, int iSection, con
 
     if(uRemSize < pCurSection->uLength)
     {
-      printf("[myles]%s: (1) writing to file from addr: 0x%lx of size: %d.\n", __func__, pData + pCurSection->uOffset, uRemSize);
+      printf("[shiroha]%s: (1) writing to file from addr: 0x%lx of size: %d.\n", __func__, pData + pCurSection->uOffset, uRemSize);
       File.write((char*)(pData + pCurSection->uOffset), uRemSize);
-      printf("[myles]%s: (1) writing to file from addr: 0x%lx of size: %d.\n", __func__, pData, pCurSection->uLength - uRemSize);
+      printf("[shiroha]%s: (1) writing to file from addr: 0x%lx of size: %d.\n", __func__, pData, pCurSection->uLength - uRemSize);
       File.write((char*)pData, pCurSection->uLength - uRemSize);
     }
     else
     {
-      printf("[myles]%s: (2) writing to file from addr: 0x%lx of size: %d.\n", __func__, pData + pCurSection->uOffset, pCurSection->uLength);
+      printf("[shiroha]%s: (2) writing to file from addr: 0x%lx of size: %d.\n", __func__, pData + pCurSection->uOffset, pCurSection->uLength);
       File.write((char*)(pData + pCurSection->uOffset), pCurSection->uLength);
     }
   }

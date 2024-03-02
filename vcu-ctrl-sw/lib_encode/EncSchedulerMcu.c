@@ -324,7 +324,7 @@ static void createPutStreamMsg(struct al5_buffer* msg, AL_TBuffer* streamBuffer,
 
 static void API_PutStreamBuffer(AL_IEncScheduler* pScheduler, AL_HANDLE hChannel, AL_TBuffer* streamBuffer, AL_64U streamUserPtr, uint32_t uOffset)
 {
-//   printf("[myles]%s: AL_MCU_PUT_STREAM BUFFER is going to be called.\n", __func__);
+//   printf("[shiroha]%s: AL_MCU_PUT_STREAM BUFFER is going to be called.\n", __func__);
   AL_Assert(streamBuffer);
   AL_TEncSchedulerMcu* scheduler = (AL_TEncSchedulerMcu*)pScheduler;
   Channel* chan = (Channel*)hChannel;

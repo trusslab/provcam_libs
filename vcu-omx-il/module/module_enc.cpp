@@ -113,7 +113,7 @@ void EncModule::InitEncoders(int numPass)
 {
   encoders.clear();
 
-  printf("[myles]%s: initing the encoder with numPass: %d.\n", __func__, numPass);
+  printf("[shiroha]%s: initing the encoder with numPass: %d.\n", __func__, numPass);
 
   for(int pass = 0; pass < numPass; pass++)
   {
@@ -127,7 +127,7 @@ void EncModule::InitEncoders(int numPass)
 
       auto requiredBuffers = AL_IS_AVC(media->settings.tChParam[0].eProfile) ? 2 : 1;
 
-      printf("[myles]%s: initing the encoder with requiredBuffers: %d.\n", __func__, requiredBuffers);
+      printf("[shiroha]%s: initing the encoder with requiredBuffers: %d.\n", __func__, requiredBuffers);
 
       for(int i = 0; i < requiredBuffers; i++)
       {
@@ -435,7 +435,7 @@ bool EncModule::Use(BufferHandleInterface* handle, unsigned char* buffer, int si
   }
   else if(size)
   {
-    printf("[myles]%s: going to call AL_Buffer_Create_And_Allocate with size: %d.\n", __func__, size);
+    printf("[shiroha]%s: going to call AL_Buffer_Create_And_Allocate with size: %d.\n", __func__, size);
     encoderBuffer = AL_Buffer_Create_And_Allocate(allocator.get(), size, AL_Buffer_Destroy);
     shouldBeCopied.Add(encoderBuffer, buffer);
   }

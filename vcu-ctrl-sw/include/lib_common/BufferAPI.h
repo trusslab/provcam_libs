@@ -239,7 +239,7 @@ uint8_t* AL_Buffer_GetData(const AL_TBuffer* pBuf);
 *****************************************************************************/
 uint8_t* AL_Buffer_GetDataChunk(const AL_TBuffer* pBuf, int iChunkIdx);
 
-// Added by Myles for debugging
+// Added by Shiroha for debugging
 AL_PADDR AL_Buffer_GetPhysicalAddress(const AL_TBuffer* hBuf);
 AL_PADDR AL_Buffer_GetPhysicalAddressChunk(const AL_TBuffer* hBuf, int iChunkIdx);
 

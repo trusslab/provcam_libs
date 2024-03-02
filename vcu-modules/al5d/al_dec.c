@@ -230,7 +230,7 @@ static int al5d_setup_codec_cdev(struct al5_codec_desc *codec, int minor)
 static int al5d_codec_probe(struct platform_device *pdev)
 {
 
-    myles_printk("[myles]al5d_codec_probe: attempt to probe al5d.\n");
+    shiroha_printk("[shiroha]al5d_codec_probe: attempt to probe al5d.\n");
 
 	int err;
 	static int current_minor;
@@ -248,7 +248,7 @@ static int al5d_codec_probe(struct platform_device *pdev)
 		dev_err(&pdev->dev, "Failed to setup codec");
 		return err;
 	}
-	printk("[Myles]%s: about to call al5_codec_set_firmware.\n", __func__);
+	printk("[Shiroha]%s: about to call al5_codec_set_firmware.\n", __func__);
 	err = al5_codec_set_firmware(codec, AL5D_FIRMWARE,
 				     AL5D_BOOTLOADER_FIRMWARE);
 	if (err) {
@@ -265,7 +265,7 @@ static int al5d_codec_probe(struct platform_device *pdev)
 	codec->minor = current_minor;
 	++current_minor;
 
-    myles_printk("[myles]al5d_codec_probe: al5d is now probed.\n");
+    shiroha_printk("[shiroha]al5d_codec_probe: al5d is now probed.\n");
 
 	return 0;
 }
@@ -322,7 +322,7 @@ static void destroy_module_class(void)
 static int __init al5d_codec_init(void)
 {
 
-    myles_printk("[myles]al5d_codec_init: al5d driver init.\n");
+    shiroha_printk("[shiroha]al5d_codec_init: al5d driver init.\n");
 
 	int err;
 
@@ -352,5 +352,5 @@ MODULE_LICENSE("GPL v2");
 MODULE_AUTHOR("Kevin Grandemange");
 MODULE_AUTHOR("Sebastien Alaiwan");
 MODULE_AUTHOR("Antoine Gruzelle");
-MODULE_AUTHOR("Myles Liu");
+MODULE_AUTHOR("Shiroha Liu");
 MODULE_DESCRIPTION("Allegro Codec Driver");

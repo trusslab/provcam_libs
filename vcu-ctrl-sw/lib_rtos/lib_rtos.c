@@ -587,7 +587,7 @@ void Rtos_DriverClose(void* drv)
 
 int Rtos_DriverIoctl(void* drv, unsigned long int req, void* data)
 {
-//   printf("[myles]%s: calling ioctl from vcu-ctrl-sw with req: %ld.\n", __func__, req);
+//   printf("[shiroha]%s: calling ioctl from vcu-ctrl-sw with req: %ld.\n", __func__, req);
   int fd = (int)(intptr_t)drv;
   return ioctl(fd, req, data);
 }
