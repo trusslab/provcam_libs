@@ -79,7 +79,6 @@
 /* MCU Cache */
 #define MCU_SUBALLOCATOR_SIZE           (1024 * 1024 * 32)      /* 32 MB */
 #define MCU_CACHE_OFFSET                0x80000000
-// #define MCU_CACHE_OFFSET                0x40200000
 #define AL5_ICACHE_SIZE                 (1024 * 600)            /* 600 KB (for possible extensions) */
 #define AL5_RC_PLUGIN_CODE_START (1024 * 512)
 #define MCU_SRAM_SIZE                   0x8000                  /* 32 kB */

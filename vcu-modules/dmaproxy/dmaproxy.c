@@ -26,12 +26,6 @@ static struct cdev dmaproxy_cdev;
 static struct class *dmaproxy_cl;
 #define MINOR_CNT 8
 
-// Shiroha: for debugging only
-int print_counter = 0;
-char char_arr_4_print[4];
-int current_writing_ptr = 0;
-int int_4_print;
-
 struct dmacopy_done {
 	bool		done;
 	wait_queue_head_t       wait;
@@ -121,11 +115,6 @@ static int dmabuf_get_address(struct dmaproxy_data *dmaproxy_data, dmaproxy_arg_
 	}
 
 	dmaproxy_data->src_buf = sg_dma_address(dmaproxy_data->src_sgt->sgl);
-	// dmaproxy_data->src_buf = 0xd400000;
-    
-    // shiroha_printk("[shiroha]%s: dump_stack before.\n", __func__);
-    // dump_stack();
-    // shiroha_printk("[shiroha]%s: dump_stack after.\n", __func__);
 
 	if (dmaproxy.dst_fd != dmaproxy.src_fd) {
 		dmaproxy_data->dst_dbuf = dma_buf_get(dmaproxy.dst_fd);
@@ -158,17 +147,14 @@ static int dmabuf_get_address(struct dmaproxy_data *dmaproxy_data, dmaproxy_arg_
 		goto fail_align;
 	}
 
-    // shiroha_printk("[shiroha]%s: before offset, src_buf: 0x%lx, dst_buf: 0x%lx.\n", __func__, dmaproxy_data->src_buf, dmaproxy_data->dst_buf);
 	dmaproxy_data->src_buf = dmaproxy_data->src_buf + dmaproxy.src_offset;
 	dmaproxy_data->dst_buf = dmaproxy_data->dst_buf + dmaproxy.dst_offset;
 
-    // shiroha_printk("[shiroha]%s: before align, src_buf: 0x%lx, dst_buf: 0x%lx.\n", __func__, dmaproxy_data->src_buf, dmaproxy_data->dst_buf);
 	if (align)
 		dmaproxy_data->src_buf = PTR_ALIGN(dmaproxy_data->src_buf, align);
 	if (align)
 		dmaproxy_data->dst_buf = PTR_ALIGN(dmaproxy_data->dst_buf, align);
 
-    // shiroha_printk("[shiroha]%s: before return, src_buf: 0x%lx, dst_buf: 0x%lx.\n", __func__, dmaproxy_data->src_buf, dmaproxy_data->dst_buf);
 	return 0;
 
 fail_align:
@@ -241,34 +227,6 @@ static int perform_dma_copy(struct dmaproxy_data *dmaproxy_data, dmaproxy_arg_t 
 	}
 	um->bidi_cnt++;
 
-    // For Shiroha's debugging only
-    // if (print_counter < 32) {
-    //     int temp_size_c;
-    //     for (temp_size_c = 0; temp_size_c < (um->len); temp_size_c += 1) {
-    //         // char_arr_4_print[current_writing_ptr++] = *(char*)(um->addr[0]);
-    //         printk("[shiroha]%s: %dth 4-byte trying to copy one byte from address: 0x%x.\n", __func__, print_counter, um->addr[0] + 32 + temp_size_c);
-    //         printk("[shiroha]%s: %dth 4-byte trying to print one byte: %s.\n", __func__, print_counter, *(char*)(um->addr[0] + 32 + temp_size_c));
-    //         memcpy(char_arr_4_print + (current_writing_ptr++), (char*)(um->addr[0] + 32 + temp_size_c), sizeof(char));
-    //         if ((current_writing_ptr == 4) && (print_counter < 32)) {
-    //             printk("[shiroha]%s: %dth 4-byte trying to copy four byte.\n", __func__, print_counter);
-    //             memcpy(&int_4_print, char_arr_4_print, 4);
-    //             printk("[shiroha]%s: %dth 4-byte (source: 0x%x, dst: 0x%x, offset: %d, total_size: %d): 0x%x.\n", __func__, print_counter, um->addr[0], um->addr[1], temp_size_c, um->len, int_4_print);
-    //             ++print_counter;
-    //             current_writing_ptr = 0;
-    //         }
-    //     }
-    // }
-
-    // if (print_counter++ < 64) {
-    //     printk("[shiroha]%s: %dth moving, src: 0x%x, dst: 0x%x, len: %d.\n", __func__, print_counter, um->addr[0], um->addr[1], um->len);
-    // }
-
-    ++print_counter;
-    if (((um->addr[0]) < 0x0D400000) || (((um->addr[0]) + (um->len)) > 0x0E2FFFFF))
-        printk("[shiroha]%s: %dth moving, violation src: 0x%x, dst: 0x%x, len: %d.\n", __func__, print_counter, um->addr[0], um->addr[1], um->len);
-    if (((um->addr[1]) < 0x0D400000) || (((um->addr[1]) + (um->len)) > 0x0E2FFFFF))
-        printk("[shiroha]%s: %dth moving, potential violation src: 0x%x, dst: 0x%x, len: %d.\n", __func__, print_counter, um->addr[0], um->addr[1], um->len);
-
 	flags = DMA_CTRL_ACK | DMA_PREP_INTERRUPT;
 	tx = dma_dev->device_prep_dma_memcpy(chan, um->addr[1], um->addr[0], um->len, flags);
 	if (!tx) {
@@ -324,8 +282,6 @@ static long dmaproxy_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
 			return -EFAULT;
 		}
 
-        // shiroha_printk("[shiroha]%s: going to use dma_device: %s.\n", __func__, dmaproxy_data->chan->device->dev->init_name);
-
 		if (dmabuf_get_address(dmaproxy_data, dmaproxy))
 			return -EINVAL;
 
@@ -380,8 +336,6 @@ static int __init dma_proxy_init(void)
 		return PTR_ERR(dmaproxy_device);
 	}
 
-    shiroha_printk("[shiroha]dma_proxy_init: dmaproxy is now inited.\n");
-
 	return 0;
 }
 
@@ -397,6 +351,5 @@ module_init(dma_proxy_init)
 module_exit(dma_proxy_exit)
 
 MODULE_AUTHOR("Jeegar Patel <jeegar.patel@xilinx.com>");
-MODULE_AUTHOR("Shiroha Liu");
-MODULE_DESCRIPTION("Xilinx's zynqmp-dma Client Driver modified by Shiroha");
+MODULE_DESCRIPTION("Xilinx's zynqmp-dma Client Driver");
 MODULE_LICENSE("GPL v2");

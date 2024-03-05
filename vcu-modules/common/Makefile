@@ -1,7 +1,6 @@
 ccflags-y += -I$(src)/../include
 
 obj-m += allegro.o
-# obj-$(CONFIG_ALLEGRO_SHIROHA) += allegro.o
 
 allegro-objs := \
 	al_alloc.o \

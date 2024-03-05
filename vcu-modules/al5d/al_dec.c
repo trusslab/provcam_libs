@@ -229,9 +229,6 @@ static int al5d_setup_codec_cdev(struct al5_codec_desc *codec, int minor)
 
 static int al5d_codec_probe(struct platform_device *pdev)
 {
-
-    shiroha_printk("[shiroha]al5d_codec_probe: attempt to probe al5d.\n");
-
 	int err;
 	static int current_minor;
 
@@ -248,7 +245,6 @@ static int al5d_codec_probe(struct platform_device *pdev)
 		dev_err(&pdev->dev, "Failed to setup codec");
 		return err;
 	}
-	printk("[Shiroha]%s: about to call al5_codec_set_firmware.\n", __func__);
 	err = al5_codec_set_firmware(codec, AL5D_FIRMWARE,
 				     AL5D_BOOTLOADER_FIRMWARE);
 	if (err) {
@@ -264,8 +260,6 @@ static int al5d_codec_probe(struct platform_device *pdev)
 	}
 	codec->minor = current_minor;
 	++current_minor;
-
-    shiroha_printk("[shiroha]al5d_codec_probe: al5d is now probed.\n");
 
 	return 0;
 }
@@ -283,7 +277,6 @@ static int al5d_codec_remove(struct platform_device *pdev)
 }
 
 static const struct of_device_id al5d_codec_of_match[] = {
-	// { .compatible = "al,al5d" },
 	{ .compatible = "al,al5d" },
 	{ /* sentinel */ },
 };
@@ -321,9 +314,6 @@ static void destroy_module_class(void)
 
 static int __init al5d_codec_init(void)
 {
-
-    shiroha_printk("[shiroha]al5d_codec_init: al5d driver init.\n");
-
 	int err;
 
 	err = setup_chrdev_region();
@@ -352,5 +342,4 @@ MODULE_LICENSE("GPL v2");
 MODULE_AUTHOR("Kevin Grandemange");
 MODULE_AUTHOR("Sebastien Alaiwan");
 MODULE_AUTHOR("Antoine Gruzelle");
-MODULE_AUTHOR("Shiroha Liu");
 MODULE_DESCRIPTION("Allegro Codec Driver");

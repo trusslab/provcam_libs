@@ -46,8 +46,6 @@ static void set_icache_offset(struct al5_codec_desc *codec)
 	icache_offset_msb = (sizeof(dma_handle) == 4) ? msb : dma_handle >> 32;
 	al5_writel(icache_offset_lsb, AL5_ICACHE_ADDR_OFFSET_LSB);
 	al5_writel(icache_offset_msb, AL5_ICACHE_ADDR_OFFSET_MSB);
-
-    // shiroha_printk("[shiroha]%s: icache_offset_lsb: 0x%x, icache_offset_msb: 0x%x.\n", __func__, icache_offset_lsb, icache_offset_msb);
 }
 
 static void set_dcache_offset(struct al5_codec_desc *codec)
@@ -66,12 +64,8 @@ static void set_dcache_offset(struct al5_codec_desc *codec)
 
 	al5_writel(dcache_offset_msb, AL5_DCACHE_ADDR_OFFSET_MSB);
 	al5_writel(dcache_offset_lsb, AL5_DCACHE_ADDR_OFFSET_LSB);
-
-    // shiroha_printk("[shiroha]%s: dcache_offset_msb: 0x%x, dcache_offset_lsb: 0x%x.\n", __func__, dcache_offset_msb, dcache_offset_lsb);
 }
 
-int only_once = 0;
-#include <linux/dma-mapping.h>
 static int copy_firmware(struct al5_codec_desc *codec,
 			 const struct firmware *fw,
 			 const struct firmware *bl_fw)
@@ -90,17 +84,7 @@ static int copy_firmware(struct al5_codec_desc *codec,
 	}
 
 	memcpy(codec->icache->cpu_handle, fw->data, fw->size);
-	printk("[Shiroha]%s: writing to codec->icache->cpu_handle: 0x%016llx (phys: 0x%016llx, dma: 0x%016llx), size: %d.\n", __func__, codec->icache->cpu_handle, codec->icache->dma_handle, fw->size);
 	memcpy_toio_32(codec->regs, bl_fw->data, bl_fw->size);
-	printk("[Shiroha]%s: writing to codec->regs: 0x%016llx (phys: 0x%016llx), size: %d.\n", __func__, codec->regs, virt_to_phys(codec->regs), bl_fw->size);
-
-	if (!only_once)
-	{
-		int temp = 666;
-		memcpy((volatile void*)(phys_to_virt(0x800000000)), &temp, sizeof(temp));
-		++only_once;
-		printk("[Shiroha]%s: one and only...\n", __func__);
-	}
 
 	return 0;
 }
@@ -263,14 +247,9 @@ static int init_mcu(struct al5_codec_desc *codec, struct al5_user *root,
 		goto unlock;
 	}
 
-    // shiroha_printk("[shiroha]%s: mcu_memory_pool: %d, dma_handle: 0x%lx.\n", __func__, mcu_memory_pool, codec->suballoc_buf->dma_handle);
-
 	init_msg.addr = codec->suballoc_buf->dma_handle + MCU_CACHE_OFFSET;
 	init_msg.size = codec->suballoc_buf->size;
-
-    // shiroha_printk("[shiroha]%s: init_msg.addr: 0x%x, init_msg.size: %d.\n", __func__, init_msg.addr, init_msg.size);
 	set_l2_info(codec->device, &init_msg);
-
 	al5_info("l2 prefetch size:%d (bits), l2 color bitdepth:%d\n",
 		 init_msg.l2_size_in_bits, init_msg.l2_color_bitdepth);
 	init_msg.plugin_enabled = plugin_enabled;

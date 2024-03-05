@@ -1187,8 +1187,6 @@ OMX_ERRORTYPE Component::AllocateBuffer(OMX_INOUT OMX_BUFFERHEADERTYPE** header,
   if(transientState != TransientState::LoadedToIdle && !(port->isTransientToEnable))
     throw OMX_ErrorIncorrectStateOperation;
 
-//   printf("[shiroha]%s: (1) going to allocate memory of size: %d.\n", size * sizeof(OMX_U8));
-
   auto buffer = static_cast<OMX_U8*>(module->Allocate(size * sizeof(OMX_U8)));
 
   if(!buffer)

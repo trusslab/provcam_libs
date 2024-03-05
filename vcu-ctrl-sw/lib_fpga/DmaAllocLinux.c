@@ -180,36 +180,10 @@ static size_t AlignToPageSize(size_t zSize)
   return zSize + pagesize - (zSize % pagesize);
 }
 
-#include <execinfo.h>
-void print_trace()
-{
-  void *array[10];
-  char **strings;
-  int size, i;
-
-  size = backtrace (array, 10);
-  strings = backtrace_symbols (array, size);
-  if (strings != NULL)
-  {
-
-    printf ("[shiroha]: Obtained %d stack frames.\n", size);
-    for (i = 0; i < size; i++)
-      printf ("%s\n", strings[i]);
-  }
-
-  free (strings);
-}
-
 /* Get a dmabuf fd representing a buffer of size pInfo->size */
 static bool LinuxDma_GetDmaFd(AL_TAllocator* pAllocator, struct al5_dma_info* pInfo)
 {
   struct LinuxDmaCtx* pCtx = (struct LinuxDmaCtx*)pAllocator;
-
-//   printf("[shiroha]%s: going to call GET_DMA_FD from vcu-ctrl-sw.\n", __func__);
-
-//   printf("[shiroha]%s: before printing stack tree.\n", __func__);
-//   print_trace();
-//   printf("[shiroha]%s: after printing stack tree.\n", __func__);
 
   if(ioctl(pCtx->fd, GET_DMA_FD, pInfo) == -1)
   {
@@ -241,7 +215,6 @@ static AL_HANDLE LinuxDma_Alloc(AL_TAllocator* pAllocator, size_t zSize)
   size_t zMapSize = AlignToPageSize(zSize);
   pDmaBuffer->info.size = zMapSize;
 
-//   printf("[shiroha]%s: going to call LinuxDma_GetDmaFd.\n", __func__);
   if(!LinuxDma_GetDmaFd(pAllocator, &pDmaBuffer->info))
     goto fail;
 
@@ -268,7 +241,6 @@ int isAligned256B(AL_PADDR addr)
 
 static struct DmaBuffer* OverAllocateAndAlign256B(AL_TAllocator* pAllocator, size_t zSize)
 {
-//   printf("[shiroha]%s: going to call LinuxDma_Alloc.\n", __func__);
   struct DmaBuffer* p = (struct DmaBuffer*)LinuxDma_Alloc(pAllocator, Ceil256B(zSize));
 
   if(!p)
@@ -284,7 +256,6 @@ static struct DmaBuffer* OverAllocateAndAlign256B(AL_TAllocator* pAllocator, siz
 
 static AL_HANDLE LinuxDma_Alloc_256B_Aligned(AL_TAllocator* pAllocator, size_t zSize)
 {
-//   printf("[shiroha]%s: going to call LinuxDma_Alloc.\n", __func__);
   struct DmaBuffer* p = (struct DmaBuffer*)LinuxDma_Alloc(pAllocator, zSize);
 
   if(!p)

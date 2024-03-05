@@ -557,9 +557,8 @@ static OMX_ERRORTYPE onOutputBufferAvailable(OMX_HANDLETYPE hComponent, OMX_PTR 
 
     if(data)
     {
-        printf("[shiroha]%s: pBuffer: 0x%lx, nOffset: %d, zMapSize: %d, nFilledLen: %d.\n", __func__, pBufferHdr->pBuffer, pBufferHdr->nOffset, zMapSize, pBufferHdr->nFilledLen);
-        outfile.write((char*)data, pBufferHdr->nFilledLen);
-        outfile.flush();
+      outfile.write((char*)data, pBufferHdr->nFilledLen);
+      outfile.flush();
     }
 
     Buffer_UnmapData(data, zMapSize, app->output.isDMA);
@@ -631,7 +630,6 @@ static void allocBuffers(OMX_U32 nPortIndex, Application& app)
   for(auto nbBuf = 0; nbBuf < minBuf; nbBuf++)
   {
     OMX_BUFFERHEADERTYPE* pBufHeader;
-    printf("[shiroha]%s: going to call OMX_AllocateBuffer with size: %d, nbBuf: %d, minBuf: %d.", __func__, nbBuf, minBuf);
     OMX_AllocateBuffer(app.hEncoder, &pBufHeader, nPortIndex, &app, size);
     isInput ? app.input.buffers.push_back(pBufHeader) : app.output.buffers.push_back(pBufHeader);
   }
@@ -881,20 +879,19 @@ static OMX_ERRORTYPE safeMain(int argc, char** argv)
 
 int main(int argc, char** argv)
 {
-    printf("[shiroha]vcu-omx-il encoder main is called.\n");
-    try
+  try
+  {
+    if(safeMain(argc, argv) != OMX_ErrorNone)
     {
-        if(safeMain(argc, argv) != OMX_ErrorNone)
-        {
-            cerr << "Fatal error" << endl;
-            return EXIT_FAILURE;
-        }
-        return EXIT_SUCCESS;
+      cerr << "Fatal error" << endl;
+      return EXIT_FAILURE;
     }
-    catch(runtime_error const& error)
-    {
-        cerr << endl << "Exception caught: " << error.what() << endl;
-        return EXIT_FAILURE;
-    }
+    return EXIT_SUCCESS;
+  }
+  catch(runtime_error const& error)
+  {
+    cerr << endl << "Exception caught: " << error.what() << endl;
+    return EXIT_FAILURE;
+  }
 }
 

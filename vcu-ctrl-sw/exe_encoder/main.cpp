@@ -1062,8 +1062,6 @@ void SafeMain(int argc, char** argv)
   auto pAllocator = pIpDevice->m_pAllocator.get();
   auto pScheduler = pIpDevice->m_pScheduler;
 
-  printf("[shiroha]%s: going to allocate layers resources.\n", __func__);
-
   // --------------------------------------------------------------------------------
   // Allocate Layers resources
   int frameBuffersCount = g_defaultMinBuffers + Settings.tChParam[0].tGopParam.uNumB;
@@ -1079,7 +1077,6 @@ void SafeMain(int argc, char** argv)
   for(size_t i = 0; i < layerRessources.size(); i++)
     layerRessources[i].Init(cfg, frameBuffersCount, srcBuffersCount, i, pAllocator);
 
-  printf("[shiroha]%s: going to create encoder.\n", __func__);
   // --------------------------------------------------------------------------------
   // Create Encoder
   enc.reset(new EncoderSink(cfg, pScheduler, pAllocator
@@ -1095,7 +1092,6 @@ void SafeMain(int argc, char** argv)
     firstSink = encFirstPassLA.get();
   }
 
-  printf("[shiroha]%s: going to push created layer resources.\n", __func__);
   // --------------------------------------------------------------------------------
   // Push created layer resources
   for(size_t i = 0; i < layerRessources.size(); i++)
@@ -1110,7 +1106,6 @@ void SafeMain(int argc, char** argv)
   if(!cfg.RunInfo.bitrateFile.empty())
     enc->BitrateOutput = createBitrateWriter(cfg.RunInfo.bitrateFile, cfg);
 
-  printf("[shiroha]%s: going to set callbacks.\n", __func__);
   // --------------------------------------------------------------------------------
   // Set Callbacks
   enc->m_InputChanged = ([&](int iInputIdx, int iLayerID) {
@@ -1121,8 +1116,6 @@ void SafeMain(int argc, char** argv)
     Rtos_SetEvent(layerRessources[0].hFinished);
   });
 
-  printf("[shiroha]%s: sMd5Path: %s.\n", __func__, cfg.RunInfo.sMd5Path.c_str());
-
   if(!cfg.RunInfo.sMd5Path.empty())
   {
     auto multisink = unique_ptr<MultiSink>(new MultiSink);
@@ -1132,8 +1125,6 @@ void SafeMain(int argc, char** argv)
   }
 
   unique_ptr<RepeaterSink> prefetch;
-
-  printf("[shiroha]%s: g_numFrameToRepeat: %d.\n", g_numFrameToRepeat);
 
   if(g_numFrameToRepeat > 0)
   {
@@ -1174,21 +1165,20 @@ void SafeMain(int argc, char** argv)
 
 int main(int argc, char** argv)
 {
-    printf("[shiroha]vcu-ctrl-sw exe_encoder main is called.\n");
-    try
-    {
-        SafeMain(argc, argv);
-        return 0;
-    }
-    catch(codec_error const& error)
-    {
-        cerr << endl << "Codec error: " << error.what() << endl;
-        return error.GetCode();
-    }
-    catch(runtime_error const& error)
-    {
-        cerr << endl << "Exception caught: " << error.what() << endl;
-        return 1;
-    }
+  try
+  {
+    SafeMain(argc, argv);
+    return 0;
+  }
+  catch(codec_error const& error)
+  {
+    cerr << endl << "Codec error: " << error.what() << endl;
+    return error.GetCode();
+  }
+  catch(runtime_error const& error)
+  {
+    cerr << endl << "Exception caught: " << error.what() << endl;
+    return 1;
+  }
 }
 

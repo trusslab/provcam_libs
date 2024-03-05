@@ -114,7 +114,6 @@ void al5_signal_mcu(struct mcu_mailbox_interface *mcu)
 EXPORT_SYMBOL_GPL(al5_signal_mcu);
 
 const u32 mcu_cache_offset = 0x80000000;
-// const u32 mcu_cache_offset = 0x40200000;
 
 u32 al5_mcu_get_virtual_address(u32 physicalAddress)
 {

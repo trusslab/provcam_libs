@@ -248,26 +248,6 @@ OMX_ERRORTYPE EncComponent::UseBuffer(OMX_OUT OMX_BUFFERHEADERTYPE** header, OMX
   });
 }
 
-#include <execinfo.h>
-void print_trace()
-{
-  void *array[20];
-  char **strings;
-  int size, i;
-
-  size = backtrace (array, 20);
-  strings = backtrace_symbols (array, size);
-  if (strings != NULL)
-  {
-
-    printf ("[shiroha]: Obtained %d stack frames.\n", size);
-    for (i = 0; i < size; i++)
-      printf ("%s\n", strings[i]);
-  }
-
-  free (strings);
-}
-
 OMX_ERRORTYPE EncComponent::AllocateBuffer(OMX_INOUT OMX_BUFFERHEADERTYPE** header, OMX_IN OMX_U32 index, OMX_IN OMX_PTR app, OMX_IN OMX_U32 size)
 {
   OMX_TRY();
@@ -282,13 +262,6 @@ OMX_ERRORTYPE EncComponent::AllocateBuffer(OMX_INOUT OMX_BUFFERHEADERTYPE** head
 
   auto bufferHandlePort = GetBufferHandlePort(media, index);
   bool dmaOnPort = (bufferHandlePort == BufferHandleType::BUFFER_HANDLE_FD);
-
-//   printf("[shiroha]%s: before printing stack tree.\n", __func__);
-//   print_trace();
-//   printf("[shiroha]%s: after printing stack tree.\n", __func__);
-
-//   printf("[shiroha]%s: going to allocate memory of size: %d.\n", __func__, size * sizeof(OMX_U8));
-
   auto buffer = dmaOnPort ? reinterpret_cast<OMX_U8*>(ToEncModule(*module).AllocateDMA(size * sizeof(OMX_U8))) : static_cast<OMX_U8*>(module->Allocate(size * sizeof(OMX_U8)));
 
   if(dmaOnPort ? (static_cast<int>((intptr_t)buffer) < 0) : !buffer)
